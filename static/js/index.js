@@ -16,6 +16,7 @@ const app = new Vue({
       results:[],
       responses:[],
       loading: false,
+      ctrlSend: false,
     }
   },
   methods: {
@@ -38,6 +39,7 @@ const app = new Vue({
         self.results.push(self.content);
         self.results.push(self.getQueryAnswer(data));
         self.responses.push(data);
+        self.content = '';  // 清空输入框
 
         setTimeout(function(){
           let ele = document.getElementsByTagName('html')[0];
@@ -51,6 +53,14 @@ const app = new Vue({
         return r.choices[0].message.content;
       }else{
         return "Can not get answer content."
+      }
+    },
+    keydown: function(e){
+      console.log(e.key, e.keyCode, this.ctrlSend);
+      if((e.keyCode == 13 && e.ctrlKey && this.ctrlSend)  || (e.keyCode == 13 && !e.ctrlKey && !this.ctrlSend)){
+        this.queryAi();
+      }else if(e.keyCode == 13 && e.ctrlKey && !this.ctrlSend){
+        this.content += "\n";
       }
     }
   },
