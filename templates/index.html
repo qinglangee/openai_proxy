@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang='zh'>
+
+<head>
+  <meta charset="utf-8">
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>Home</title>
+  <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+  <style>
+    table {
+      background-color: rgb(246, 249, 252);
+    }
+
+    .bottom-box {
+      height: 100px;
+      width: 100%;
+    }
+
+    .ai-content {
+      overflow-x: auto;
+      white-space: pre-wrap;
+      /* white-space: -moz-pre-wrap;
+      white-space: -pre-wrap;
+      white-space: -o-pre-wrap; */
+      word-wrap: break-word
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="container">
+    <nav class="navbar navbar-dark bg-dark sticky-top p-2 shadow">
+      <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/">OpenAI chatGPT </a>
+      <a class="btn btn-outline-secondary me-3" href="/">Logout</a>
+    </nav>
+
+    <div id="result">
+      <table class="table table-striped">
+        <tr v-for="(r, index) in results" :key="index">
+          <td>
+
+            <pre class="ai-content">
+            {:r.choices[0].message.content:}
+          </pre>
+          </td>
+        </tr>
+      </table>
+      <div class="bottom-box">
+
+      </div>
+    </div>
+    <div class="fixed-bottom">
+      <div class="row">
+        <textarea class="form-control" v-model="content"></textarea>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-primary form-control" @click="content='';">Clear</button>
+        </div>
+        <div class="col">
+          <button class="btn btn-primary form-control" @click="queryAi">Submit</button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <script src="{{url_for('static', filename='lib/axios.0.21.1.min.js')}}"></script>
+  <script src="{{url_for('static', filename='lib/vue-2.6.12.js')}}"></script>
+  <script src="{{url_for('static', filename='js/index.js')}}"></script>
+</body>
+
+</html>
