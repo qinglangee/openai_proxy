@@ -1,6 +1,7 @@
 
 from flask import Flask, render_template, request
 import ai_query as ai
+import time
 
 app = Flask(__name__)
 

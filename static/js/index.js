@@ -14,6 +14,8 @@ const app = new Vue({
     return {
       content:'',
       results:[],
+      responses:[],
+      loading: false,
     }
   },
   methods: {
@@ -22,6 +24,7 @@ const app = new Vue({
       if(this.content.trim() == ''){
         return;
       }
+      self.loading = true;
       const form = new FormData();
       form.append('content', self.content);
       axios.post("/ask", form).then(resp => {
@@ -30,9 +33,11 @@ const app = new Vue({
         console.log('data', data);
 
 
-
-        console.log(data.choices[0].message.content);
-        self.results.push(data);
+        self.loading = false;
+        console.log(self.getQueryAnswer(data));
+        self.results.push(self.content);
+        self.results.push(self.getQueryAnswer(data));
+        self.responses.push(data);
 
         setTimeout(function(){
           let ele = document.getElementsByTagName('html')[0];
@@ -40,6 +45,14 @@ const app = new Vue({
         }, 200);
       });
     }, 
+    getQueryAnswer: function(responseData){
+      let r = responseData;
+      if(r.choices != null && r.choices.length > 0 && r.choices[0].message != null ){
+        return r.choices[0].message.content;
+      }else{
+        return "Can not get answer content."
+      }
+    }
   },
   computed: {
   },
